@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://p.trellocdn.com/power-up.min.js"></script>
+</head>
+<body>
+<script>
+TrelloPowerUp.initialize({
+  'board-buttons': function(t, options) {
+    return [{
+      text: 'Export Cards',
+      callback: function(t) {
+        return t.popup({
+          title: 'Export',
+          url: './popup.html'
+        });
+      }
+    }];
+  }
+});
+</script>
+</body>
+</html>
