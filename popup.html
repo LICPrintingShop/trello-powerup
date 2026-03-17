@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://p.trellocdn.com/power-up.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 10px;
+    }
+    button {
+      padding: 8px 12px;
+      background: #0079bf;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h3>Export Card</h3>
+<p>Send this card to spreadsheet</p>
+
+<button id="exportBtn">Export</button>
+
+<script>
+var t = TrelloPowerUp.iframe();
+
+document.getElementById("exportBtn").addEventListener("click", function(){
+
+  t.card('name','desc','url','due','idList')
+  .then(function(card){
+
+    const data = {
+      name: card.name,
+      description: card.desc,
+      url: card.url,
+      due: card.due,
+      list: card.idList
+    };
+
+    // send to your API
+    fetch("https://your-api-server.com/trello-export",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+      alert("Card exported successfully!");
+      t.closePopup();
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Export failed");
+    });
+
+  });
+
+});
+</script>
+
+</body>
+</html>
